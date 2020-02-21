@@ -1,3 +1,4 @@
+import 'package:cartech_app/src/ui/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cartech_app/src/ui/theme_resources.dart';
@@ -62,7 +63,7 @@ class LoginScreenState extends State<LoginScreen>{
   Widget _signUpButton(){
     return InkWell(
       onTap: (){
-
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
       },
       child: Container(
         padding: EdgeInsets.all(5),
@@ -80,6 +81,7 @@ class LoginScreenState extends State<LoginScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
