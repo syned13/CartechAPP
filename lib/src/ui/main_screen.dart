@@ -17,8 +17,8 @@ class MainScreenState extends State<MainScreen>{
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
-        child: Text("Hello"),
+      body: SafeArea(
+        child: Text("Hola"),
       ),
     );
 

@@ -9,9 +9,6 @@ class Utils{
   static void saveInfo(Map<String, dynamic> userInfo) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("TOKEN", userInfo["token"]);
-    sharedPreferences.setString("FULL_NAME", userInfo["full_name"]);
-    sharedPreferences.setString("PROGRAM", userInfo["program"]);
-    sharedPreferences.setString("ID", userInfo["id"]);
   }
 
   static Future<bool>  isLogged() async{

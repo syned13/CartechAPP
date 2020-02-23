@@ -1,3 +1,7 @@
+
+import 'package:cartech_app/src/blocs/login_bloc.dart';
+import 'package:cartech_app/src/models/login_state.dart';
+import 'package:cartech_app/src/ui/main_screen.dart';
 import 'package:cartech_app/src/ui/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +18,12 @@ class LoginScreen extends StatefulWidget{
 
 class LoginScreenState extends State<LoginScreen>{
 
+  LoginBloc loginBloc = LoginBloc();
+
   Widget _emailField() {
     return Container(
       child: TextField(
+        controller: loginBloc.emailController,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor)),
           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor),),
@@ -30,6 +37,7 @@ class LoginScreenState extends State<LoginScreen>{
   Widget _passwordField() {
     return Container(
       child: TextField(
+        controller: loginBloc.passwordController,
         obscureText: true,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor)),
@@ -43,20 +51,29 @@ class LoginScreenState extends State<LoginScreen>{
   }
 
   Widget _loginButton(){
-    return InkWell(
-      onTap: (){
+    return StreamBuilder<LoginState>(
+      stream: loginBloc.loginStateStream,
+      builder: (context, snapshot) {
+        if(snapshot.data is LoginStateLoading){
+          return CircularProgressIndicator();
+        }
 
-      },
-      child: Container(
-        padding: EdgeInsets.all(10),
-        alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width/3,
-        child: Text("Ingresar", style: TextStyle(color: Colors.grey[100]),),
-        decoration: BoxDecoration(
-          color: Resources.MainColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-      ),
+        return InkWell(
+          onTap: (){
+            loginBloc.submit();
+          },
+          child: Container(
+            padding: EdgeInsets.all(10),
+            alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width/3,
+            child: Text("Ingresar", style: TextStyle(color: Colors.grey[100]),),
+            decoration: BoxDecoration(
+              color: Resources.MainColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+          ),
+        );
+      }
     );
   }
 
@@ -107,5 +124,42 @@ class LoginScreenState extends State<LoginScreen>{
     );
   }
 
+  void _showDialog(String message) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text(message),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    loginBloc.loginStateStream.listen( (data) {
+      if(data is LoginStateError){
+        _showDialog(data.errorMessage);
+      }
+      else if(data is LoginStateReady){
+        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+    });
+
+  }
 
 }

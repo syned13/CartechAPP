@@ -8,7 +8,7 @@ class ApiClient {
 
   static final String API_ENDPOINT = "https://api-cartech.herokuapp.com";
 
-  static Future<String> signUp(User user) async {
+  static Future<String> postUser(User user, String path) async {
     Map<String, String> headers = Map();
     headers["content-type"] = "application/json";
     Map<String, dynamic> bodyMap = user.toJson();
@@ -17,7 +17,7 @@ class ApiClient {
 
     try {
       final response = await http.post(
-          API_ENDPOINT + "/signup", headers: headers, body: body).catchError( (error) {
+          API_ENDPOINT + path, headers: headers, body: body).catchError( (error) {
         return Future.error(error);
       }).timeout(Duration(milliseconds: 10000));
 

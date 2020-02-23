@@ -36,10 +36,10 @@ class SignUpBloc extends Bloc {
 
     _signUpStateController.sink.add(new SignUpStateLoading());
 
-    String response = await ApiClient.signUp(user).catchError( (error) {
+    String response = await ApiClient.postUser(user, "/signup").catchError( (error) {
       String errorMessage = error.toString();
 
-      if(errorMessage == "email must be unique"){
+      if(errorMessage == "email must be unique") {
         errorMessage = "Correo electronico debe ser unico";
       }
       else{
