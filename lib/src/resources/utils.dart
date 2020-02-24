@@ -1,3 +1,4 @@
+import 'package:cartech_app/src/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,9 +7,28 @@ import 'dart:developer' as developer;
 class Utils{
 
 
-  static void saveInfo(Map<String, dynamic> userInfo) async{
+  static void saveLoginInfo(Map<String, dynamic> userInfo) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("TOKEN", userInfo["token"]);
+
+    User user = User.fromJson(userInfo);
+    sharedPreferences.setString("NAME", user.name);
+    sharedPreferences.setString("LAST_NAME", user.name);
+    sharedPreferences.setString("EMAIL", user.email);
+    sharedPreferences.setString("PHONE_NUMBER", user.phoneNumber);
+
+  }
+
+  static Future<User> getLoggedUserInfo() async{
+    User user = User();
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    user.name = sharedPreferences.getString("NAME");
+    user.lastName = sharedPreferences.getString("LAST_NAME");
+    user.email = sharedPreferences.getString("EMAIL");
+    user.phoneNumber = sharedPreferences.getString("PHONE_NUMBER");
+
+    return user;
   }
 
   static Future<bool>  isLogged() async{

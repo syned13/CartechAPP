@@ -1,6 +1,7 @@
+import 'package:cartech_app/src/ui/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cartech_app/src/ui/splash_screen.dart';
-import 'package:cartech_app/src/ui/main_screen.dart';
+import 'package:cartech_app/src/ui/services_screen.dart';
 import 'package:cartech_app/src/ui/login_screen.dart';
 
 import 'dart:developer' as developer;
@@ -13,7 +14,7 @@ class CartechApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Reservatec',
+      title: 'Cartech',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           secondaryHeaderColor: Colors.redAccent

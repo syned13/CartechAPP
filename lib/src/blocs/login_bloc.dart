@@ -33,7 +33,7 @@ class LoginBloc extends Bloc{
 
     Map<String, dynamic> responseMap = json.decode(responseBody);
 
-    Utils.saveInfo(responseMap);
+    Utils.saveLoginInfo(responseMap);
 
     _loginStateController.sink.add(LoginStateReady());
 

@@ -14,7 +14,7 @@ class SplashScreenState extends State<SplashScreen>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Image.asset("assets/intec_logo.jpg"),
+      child: Text("Hello world!"),
     );
   }
 
