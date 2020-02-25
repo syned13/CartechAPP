@@ -9,6 +9,8 @@ import 'package:cartech_app/src/resources/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'dart:developer' as developer;
+
 class LoginBloc extends Bloc{
 
   TextEditingController emailController = TextEditingController();
@@ -27,7 +29,19 @@ class LoginBloc extends Bloc{
     user.password = passwordController.text;
 
     String responseBody = await ApiClient.postUser(user, "/login").catchError( (error){
-      _loginStateController.sink.add( LoginStateError(error.toString()));
+      developer.log("error_while_posting_user: " + error.toString());
+      String errorMessage = error.toString();
+//      if(errorMessage == "missing email" || errorMessage == "missing password"){
+//        errorMessage = "Datos faltantes";
+//      }
+//      else if(errorMessage == "incorrect email or password"){
+//        errorMessage = "Correo o contraseña incorrecta";
+//      }
+//      else{
+//        errorMessage = "Error inesperado";
+//      }
+
+      _loginStateController.sink.add( LoginStateError(errorMessage));
       return;
     });
 
