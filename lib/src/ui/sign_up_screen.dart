@@ -142,7 +142,7 @@ class SignUpScreenState extends State<SignUpScreen>{
           leftBarIndicatorColor: Colors.green,
 
         ).show(context).then( (r){
-//          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).popUntil((route) => route.isFirst);
         });
       }
     });

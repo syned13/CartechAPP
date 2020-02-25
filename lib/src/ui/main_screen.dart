@@ -1,3 +1,4 @@
+import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/utils.dart';
 import 'package:cartech_app/src/ui/profile_screen.dart';
 import 'package:cartech_app/src/ui/services_screen.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 
 
 class MainScreen extends StatefulWidget{
+
 
   @override
   State<StatefulWidget> createState() {
@@ -30,11 +32,11 @@ class MainScreenState extends State<MainScreen>{
         backgroundColor: Resources.MainColor,
         items: [
           BottomNavigationBarItem(
-            title: Text(""),
+            title: Text("Sevicios"),
             icon: Icon(Icons.build),
           ),
           BottomNavigationBarItem(
-            title: Text(""),
+            title: Text("Perfil"),
             icon: Icon(Icons.account_box),
           )
         ],
@@ -49,4 +51,11 @@ class MainScreenState extends State<MainScreen>{
       _currentIndex = index;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
 }

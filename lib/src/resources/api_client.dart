@@ -39,4 +39,36 @@ class ApiClient {
 
     return "";
   }
+
+
+  static Future<String> get(String token, String path) async {
+    Map<String, String> headers = Map();
+    headers["content-type"] = "application/json";
+    headers["Authorization"] = token;
+
+
+    try {
+      final response = await http.get(
+          API_ENDPOINT + path, headers: headers).catchError( (error) {
+        return Future.error(error);
+      }).timeout(Duration(milliseconds: 10000));
+
+      if (response == null) {
+        return Future.error("request error");
+      }
+
+      if (response.statusCode != 200) {
+        String errorMessage = jsonDecode(response.body)["message"];
+        return Future.error(errorMessage);
+      }
+
+      return response.body;
+    }
+
+    catch (Exception) {
+      return Future.error(Exception.toString());
+    }
+
+    return "";
+  }
 }
