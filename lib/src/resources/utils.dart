@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cartech_app/src/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,9 +16,16 @@ class Utils{
     User user = User.fromJson(userInfo);
     sharedPreferences.setString("NAME", user.name);
     sharedPreferences.setString("LAST_NAME", user.name);
-    sharedPreferences.setString("EMAIL", user.email);
+    sharedPreferences.setString("EMAIL", user.email); 
     sharedPreferences.setString("PHONE_NUMBER", user.phoneNumber);
 
+  }
+
+  static String decodeResponse(String responseBody){
+    var encoded = utf8.encode(responseBody);
+    var decoded = utf8.decode(encoded);
+
+    return decoded;
   }
 
   static Future<User> getLoggedUserInfo() async{

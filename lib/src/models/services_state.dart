@@ -1,6 +1,7 @@
+import 'package:cartech_app/src/models/service_category.dart';
 import 'package:cartech_app/src/models/user.dart';
 
-import 'services.dart';
+import 'service_category.dart';
 
 class ServicesState{}
 
@@ -14,5 +15,5 @@ class ServicesStateError extends ServicesState{
 
 class ServicesStateReady extends ServicesState{
   User user;
-  Services services;
+  List<ServiceCategory> serviceCategories;
 }

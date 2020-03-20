@@ -1,5 +1,5 @@
 import 'package:cartech_app/src/blocs/services_screen_bloc.dart';
-import 'package:cartech_app/src/models/services.dart';
+import 'package:cartech_app/src/models/service_category.dart';
 import 'package:cartech_app/src/models/services_state.dart';
 import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/utils.dart';
@@ -22,10 +22,10 @@ class ServicesScreenState extends State<ServicesScreen>{
   ServicesScreenBloc servicesScreenBloc = ServicesScreenBloc();
 
 
-  List<Widget> _servicesCardList(List<Service> services){
+  List<Widget> _serviceCategoriesCardList(List<ServiceCategory> serviceCategories){
     List<Widget> cards = List();
 
-    for(int i = 0; i < services.length; i++){
+    for(int i = 0; i < serviceCategories.length; i++){
       cards.add( InkWell(
         onTap: (){
           Navigator.push( (context), MaterialPageRoute(builder: (context) => WorkOnProgressScreen()));
@@ -33,7 +33,7 @@ class ServicesScreenState extends State<ServicesScreen>{
         child: Card(
           color: Colors.deepPurple[100],
           child: Center(
-            child: Text(services[i].serviceCategory, textAlign: TextAlign.center,),
+            child: Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
           ),
         ),
       ));
@@ -42,14 +42,14 @@ class ServicesScreenState extends State<ServicesScreen>{
     return cards;
   }
 
-  Widget _servicesGridView(List<Service> services){
+  Widget _servicesGridView(List<ServiceCategory> serviceCategories){
     return GridView.count(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
         primary: false,
         crossAxisSpacing: 5.0,
         crossAxisCount: 3,
-        children: _servicesCardList(services),
+        children: _serviceCategoriesCardList(serviceCategories),
     );
   }
 
@@ -82,7 +82,7 @@ class ServicesScreenState extends State<ServicesScreen>{
                     SizedBox(height: 20,),
                     Text("Servicios", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                     SizedBox(height: 20,),
-                    _servicesGridView(data.services.services),
+                    _servicesGridView(data.serviceCategories),
 
                   ],
                 ),

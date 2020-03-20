@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cartech_app/src/resources/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:cartech_app/src/models/user.dart';
@@ -7,6 +8,7 @@ import 'dart:developer' as developer;
 class ApiClient {
 
   static final String API_ENDPOINT = "https://api-cartech.herokuapp.com";
+//static final String API_ENDPOINT = "http://10.0.2.2:5000";
 
   static Future<String> postUser(User user, String path) async {
     Map<String, String> headers = Map();
@@ -25,12 +27,15 @@ class ApiClient {
         return Future.error("request error");
       }
 
+      developer.log("response: " + response.body);
       if (response.statusCode != 200) {
+        developer.log("invalid_status_code: " + response.statusCode.toString());
         String errorMessage = jsonDecode(response.body)["message"];
         return Future.error(errorMessage);
       }
 
-      return response.body;
+
+      return utf8.decode(response.bodyBytes);
     }
 
     catch (Exception) {
@@ -57,12 +62,13 @@ class ApiClient {
         return Future.error("request error");
       }
 
+
       if (response.statusCode != 200) {
         String errorMessage = jsonDecode(response.body)["message"];
         return Future.error(errorMessage);
       }
 
-      return response.body;
+      return utf8.decode(response.bodyBytes);
     }
 
     catch (Exception) {

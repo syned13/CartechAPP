@@ -31,15 +31,15 @@ class LoginBloc extends Bloc{
     String responseBody = await ApiClient.postUser(user, "/login").catchError( (error){
       developer.log("error_while_posting_user: " + error.toString());
       String errorMessage = error.toString();
-//      if(errorMessage == "missing email" || errorMessage == "missing password"){
-//        errorMessage = "Datos faltantes";
-//      }
-//      else if(errorMessage == "incorrect email or password"){
-//        errorMessage = "Correo o contraseña incorrecta";
-//      }
-//      else{
-//        errorMessage = "Error inesperado";
-//      }
+      if(errorMessage == "missing email" || errorMessage == "missing password"){
+        errorMessage = "Datos faltantes";
+      }
+      else if(errorMessage == "incorrect email or password"){
+        errorMessage = "Correo o contraseña incorrecta";
+      }
+      else{
+        errorMessage = "Error inesperado";
+      }
 
       _loginStateController.sink.add( LoginStateError(errorMessage));
       return;

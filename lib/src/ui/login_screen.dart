@@ -158,7 +158,6 @@ class LoginScreenState extends State<LoginScreen>{
         _showDialog(data.errorMessage);
       }
       else if(data is LoginStateReady){
-        LoginStateReady loginStateReady = data;
         Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MainScreen()));
       }
     });
