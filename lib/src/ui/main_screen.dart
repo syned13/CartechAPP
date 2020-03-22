@@ -1,7 +1,8 @@
 import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/utils.dart';
+import 'package:cartech_app/src/ui/orders_list.dart';
 import 'package:cartech_app/src/ui/profile_screen.dart';
-import 'package:cartech_app/src/ui/services_screen.dart';
+import 'package:cartech_app/src/ui/services_categories_screen.dart';
 import 'package:cartech_app/src/ui/theme_resources.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class MainScreenState extends State<MainScreen>{
 
   int _currentIndex = 0;
 //  List<String> _appbarTitles = ["Areas", "Reservas", "Perfil"];
-  List<Widget> _children = [ServicesScreen(), ProfileScreen()];
+  List<Widget> _children = [ServicesCategoriesScreen(), OrdersListSreen(), ProfileScreen()];
 
 
   @override
@@ -36,9 +37,13 @@ class MainScreenState extends State<MainScreen>{
             icon: Icon(Icons.build),
           ),
           BottomNavigationBarItem(
+              title: Text("Órdenes"),
+              icon: Icon(Icons.shopping_cart)
+          ),
+          BottomNavigationBarItem(
             title: Text("Perfil"),
             icon: Icon(Icons.account_box),
-          )
+          ),
         ],
       ),
 

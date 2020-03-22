@@ -1,7 +1,7 @@
 import 'package:cartech_app/src/ui/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cartech_app/src/ui/splash_screen.dart';
-import 'package:cartech_app/src/ui/services_screen.dart';
+import 'package:cartech_app/src/ui/services_categories_screen.dart';
 import 'package:cartech_app/src/ui/login_screen.dart';
 
 import 'dart:developer' as developer;

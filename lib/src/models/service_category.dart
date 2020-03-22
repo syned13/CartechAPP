@@ -1,7 +1,7 @@
 class ServiceCategory {
   String serviceCategory;
   int serviceCategoryId;
-  List<Services> services;
+  List<Service> services;
 
   ServiceCategory(
       {this.serviceCategory, this.serviceCategoryId, this.services});
@@ -10,9 +10,9 @@ class ServiceCategory {
     serviceCategory = json['service_category'];
     serviceCategoryId = json['service_category_id'];
     if (json['services'] != null) {
-      services = new List<Services>();
+      services = new List<Service>();
       json['services'].forEach((v) {
-        services.add(new Services.fromJson(v));
+        services.add(new Service.fromJson(v));
       });
     }
   }
@@ -41,14 +41,14 @@ class ServiceCategory {
   }
 }
 
-class Services {
+class Service {
   int serviceId;
   String serviceName;
   int serviceCategoryId;
 
-  Services({this.serviceId, this.serviceName, this.serviceCategoryId});
+  Service({this.serviceId, this.serviceName, this.serviceCategoryId});
 
-  Services.fromJson(Map<String, dynamic> json) {
+  Service.fromJson(Map<String, dynamic> json) {
     serviceId = json['service_id'];
     serviceName = json['service_name'];
     serviceCategoryId = json['service_category_id'];

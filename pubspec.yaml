@@ -27,6 +27,8 @@ dependencies:
   rxdart: ^0.23.1
   http: ^0.12.0+4
   flushbar: ^1.9.1
+  google_maps_flutter: ^0.5.11
+  geolocator: ^5.3.0
 
 dev_dependencies:
   flutter_test:

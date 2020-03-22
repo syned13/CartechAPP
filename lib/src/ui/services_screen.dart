@@ -1,40 +1,37 @@
 import 'package:cartech_app/src/blocs/services_screen_bloc.dart';
 import 'package:cartech_app/src/models/service_category.dart';
 import 'package:cartech_app/src/models/services_state.dart';
-import 'package:cartech_app/src/models/user.dart';
-import 'package:cartech_app/src/resources/utils.dart';
-import 'package:cartech_app/src/ui/theme_resources.dart';
-import 'package:cartech_app/src/ui/work_on_progress_screen.dart';
+import 'package:cartech_app/src/ui/select_service_location_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ServicesScreen extends StatefulWidget{
+class ServicesScreen extends StatefulWidget {
+
+
+  ServiceCategory serviceCategory;
 
   @override
-  State<StatefulWidget> createState() {
-    return ServicesScreenState();
-  }
+  ServicesScreenState createState() => ServicesScreenState();
 
+  ServicesScreen(this.serviceCategory);
 }
-
 
 class ServicesScreenState extends State<ServicesScreen>{
 
-  ServicesScreenBloc servicesScreenBloc = ServicesScreenBloc();
-
-
-  List<Widget> _serviceCategoriesCardList(List<ServiceCategory> serviceCategories){
+  List<Widget> _serviceCategoriesCardList(List<Service> services){
     List<Widget> cards = List();
 
-    for(int i = 0; i < serviceCategories.length; i++){
+    for(int i = 0; i < services.length; i++){
       cards.add( InkWell(
-        onTap: (){
-          Navigator.push( (context), MaterialPageRoute(builder: (context) => WorkOnProgressScreen()));
-        },
+        onTap: (){Navigator.push( (context), MaterialPageRoute(builder: (context) => SelectServiceLocationScreen(services[i])));},
         child: Card(
-          color: Colors.deepPurple[100],
-          child: Center(
-            child: Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
-          ),
+          color: Colors.blue[200],
+          child: Container(
+            width: double.maxFinite,
+            alignment: Alignment.center,
+            height: 40,
+            padding: EdgeInsets.all(5),
+              child: Text(services[i].serviceName, textAlign: TextAlign.center, style: TextStyle(fontSize: 17),),),
         ),
       ));
     }
@@ -42,59 +39,44 @@ class ServicesScreenState extends State<ServicesScreen>{
     return cards;
   }
 
-  Widget _servicesGridView(List<ServiceCategory> serviceCategories){
-    return GridView.count(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        primary: false,
-        crossAxisSpacing: 5.0,
-        crossAxisCount: 3,
-        children: _serviceCategoriesCardList(serviceCategories),
-    );
+  Widget _ServicesList(List<Service> services){
+      return Container(
+        padding: EdgeInsets.all(50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(widget.serviceCategory.serviceCategory, style: TextStyle(fontSize: 30),),
+            SizedBox(height: 10,),
+            Text("Elija un servicio a solicitar"),
+            SizedBox(height: 20,),
+            Column(children: _serviceCategoriesCardList(services),)
+          ],
+        ),
+      );
   }
 
+  ServicesScreenBloc servicesScreenBloc = ServicesScreenBloc();
   @override
   Widget build(BuildContext context) {
-    servicesScreenBloc.init();
+    servicesScreenBloc.getServices(widget.serviceCategory.serviceCategoryId);
 
     return Scaffold(
       body: StreamBuilder<ServicesState>(
         stream: servicesScreenBloc.servicesStateStream,
         builder: (context, snapshot) {
           if(snapshot.data is ServicesStateLoading){
-            return Container(
-                alignment:Alignment.center,child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
 
-          else if(snapshot.data is ServicesStateReady){
-            ServicesStateReady data = snapshot.data;
-
-            return SafeArea(
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Hola, " + data.user.name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).accentColor),),
-                    SizedBox(height: 5,),
-                    Text("¿Qué necesitas?", style: TextStyle(fontSize: 20),),
-                    SizedBox(height: 20,),
-                    Text("Servicios", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 20,),
-                    _servicesGridView(data.serviceCategories),
-
-                  ],
-                ),
-              ),
-            )  ;
+          if(snapshot.data is ServicesStateReady){
+            ServicesStateReady servicesStateReady = snapshot.data;
+            return _ServicesList(servicesStateReady.services);
           }
 
-          return Text("Hola");
+          return Container();
         }
       ),
     );
-
   }
 
   void _showDialog(String message) {
@@ -120,12 +102,11 @@ class ServicesScreenState extends State<ServicesScreen>{
     );
   }
 
-
   @override
   void initState() {
     super.initState();
 
-    servicesScreenBloc.servicesStateStream.listen( (data) {
+    servicesScreenBloc.servicesStateStream.listen( (data){
       if(data is ServicesStateError){
         _showDialog(data.errorMessage);
       }

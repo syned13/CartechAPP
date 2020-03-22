@@ -82,11 +82,11 @@ class SignUpScreenState extends State<SignUpScreen>{
                 SizedBox(height: 20,),
                 _textField("Apellido", false, signUpBloc.lastNameController),
                 SizedBox(height: 20,),
-                _textField("Correo electronico", false, signUpBloc.emailController),
+                _textField("Correo electrónico", false, signUpBloc.emailController),
                 SizedBox(height: 20,),
-                _textField("Numero de telefono", false, signUpBloc.phoneNumberController),
+                _textField("Numero de teléfono", false, signUpBloc.phoneNumberController),
                 SizedBox(height: 20,),
-                _textField("Contrasena", true, signUpBloc.passwordController),
+                _textField("Contraseña", true, signUpBloc.passwordController),
                 SizedBox(height: 20,),
                 _signUpButton(),
               ],
@@ -131,7 +131,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       else if(data is SignUpStateDone){
         Flushbar(
           flushbarPosition: FlushbarPosition.BOTTOM,
-          message: "Reservacion creada con exito",
+          message: "Cuenta registrada con éxito",
           icon: Icon(
             Icons.check_circle,
             size: 28.0,

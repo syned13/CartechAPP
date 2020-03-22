@@ -8,6 +8,7 @@ import 'dart:developer' as developer;
 
 class Utils{
 
+  static const GOOGLE_MAP_KEY = "AIzaSyCJyJ3arrtyEjrwvWxpdv5axJVN3SJFLzg";
 
   static void saveLoginInfo(Map<String, dynamic> userInfo) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -68,6 +68,7 @@ class ApiClient {
         return Future.error(errorMessage);
       }
 
+      developer.log(response.body);
       return utf8.decode(response.bodyBytes);
     }
 
