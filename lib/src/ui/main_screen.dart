@@ -5,7 +5,7 @@ import 'package:cartech_app/src/ui/profile_screen.dart';
 import 'package:cartech_app/src/ui/services_categories_screen.dart';
 import 'package:cartech_app/src/ui/theme_resources.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget{
 
@@ -19,7 +19,6 @@ class MainScreen extends StatefulWidget{
 class MainScreenState extends State<MainScreen>{
 
   int _currentIndex = 0;
-//  List<String> _appbarTitles = ["Areas", "Reservas", "Perfil"];
   List<Widget> _children = [ServicesCategoriesScreen(), OrdersListSreen(), ProfileScreen()];
 
 
@@ -28,11 +27,13 @@ class MainScreenState extends State<MainScreen>{
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: onTabTapped,
-        backgroundColor: Resources.MainColor,
+        backgroundColor: Color.fromRGBO(27, 130, 226, 100),
         items: [
           BottomNavigationBarItem(
+            backgroundColor: Colors.white,
             title: Text("Sevicios"),
             icon: Icon(Icons.build),
           ),

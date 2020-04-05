@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget{
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width/3,
-                      child: Text("Cerrar sesión", style: TextStyle(color: Colors.grey[100]),),
+                      child: Text("Cerrar sesión", ),
                       decoration: BoxDecoration(
                         color: Resources.MainColor,
                         borderRadius: BorderRadius.all(Radius.circular(10)),

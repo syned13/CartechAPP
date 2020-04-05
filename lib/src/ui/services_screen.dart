@@ -45,9 +45,7 @@ class ServicesScreenState extends State<ServicesScreen>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(widget.serviceCategory.serviceCategory, style: TextStyle(fontSize: 30),),
-            SizedBox(height: 10,),
-            Text("Elija un servicio a solicitar"),
+            Text("Elija un servicio a solicitar", style: TextStyle(fontSize: 20),),
             SizedBox(height: 20,),
             Column(children: _serviceCategoriesCardList(services),)
           ],
@@ -61,6 +59,7 @@ class ServicesScreenState extends State<ServicesScreen>{
     servicesScreenBloc.getServices(widget.serviceCategory.serviceCategoryId);
 
     return Scaffold(
+      appBar: AppBar(title: Text(widget.serviceCategory.serviceCategory),),
       body: StreamBuilder<ServicesState>(
         stream: servicesScreenBloc.servicesStateStream,
         builder: (context, snapshot) {

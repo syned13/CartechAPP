@@ -6,6 +6,7 @@ import 'package:cartech_app/src/resources/utils.dart';
 import 'package:cartech_app/src/ui/services_screen.dart';
 import 'package:cartech_app/src/ui/work_on_progress_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ServicesCategoriesScreen extends StatefulWidget{
 
@@ -19,6 +20,23 @@ class ServicesCategoriesScreen extends StatefulWidget{
 
 class ServicesCategoriesScreenState extends State<ServicesCategoriesScreen>{
 
+  Map<String, Widget> categoriesImages = {
+    "Frenos": SvgPicture.asset("assets/brake.svg", height: 50,),
+    "Afinación de motor": SvgPicture.asset("assets/motor.svg", height: 50,),
+    "Cambio de aceite y lubricación": SvgPicture.asset("assets/oil.svg", height: 50,),
+    "Mantenimiento de suspensión": SvgPicture.asset("assets/suspension.svg", height: 50,),
+    "Revisión eléctrica": SvgPicture.asset("assets/flash.svg", height: 50,),
+    "Default": SvgPicture.asset("assets/tool.svg", height: 50,),
+  };
+
+  Widget _getCategoryImage(String categoryName){
+    if(categoriesImages.containsKey(categoryName)){
+      return categoriesImages[categoryName];
+    }
+
+    return categoriesImages["default"];
+  }
+  
   ServicesCategoriesScreenBloc servicesScreenBloc = ServicesCategoriesScreenBloc();
 
   List<Widget> _serviceCategoriesCardList(List<ServiceCategory> serviceCategories){
@@ -32,7 +50,15 @@ class ServicesCategoriesScreenState extends State<ServicesCategoriesScreen>{
         child: Card(
           color: Colors.deepPurple[100],
           child: Center(
-            child: Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _getCategoryImage(serviceCategories[i].serviceCategory),
+                SizedBox(height: 5,),
+                Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
+              ],
+            ),
           ),
         ),
       ));

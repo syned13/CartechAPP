@@ -29,8 +29,8 @@ class LoginScreenState extends State<LoginScreen>{
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor)),
           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor),),
-          border: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor),),
-          hintText: "Correo electronico",
+          border: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor, width: 5),),
+          hintText: "Correo electrónico",
         ),
       ),
     );
@@ -44,8 +44,8 @@ class LoginScreenState extends State<LoginScreen>{
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor)),
           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor) ),
-          border: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor)),
-          hintText: "Contrasena",
+          border: OutlineInputBorder(borderSide: BorderSide(color: Resources.MainColor, width: 5)),
+          hintText: "Contraseña",
           filled: false,
         ),
       ),
@@ -68,10 +68,10 @@ class LoginScreenState extends State<LoginScreen>{
             padding: EdgeInsets.all(10),
             alignment: Alignment.center,
               width: MediaQuery.of(context).size.width/3,
-            child: Text("Ingresar", style: TextStyle(color: Colors.grey[100]),),
+            child: Text("INGRESAR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
             decoration: BoxDecoration(
               color: Resources.MainColor,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
           ),
         );
@@ -88,10 +88,10 @@ class LoginScreenState extends State<LoginScreen>{
         padding: EdgeInsets.all(5),
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width/4,
-        child: Text("Registrarse", style: TextStyle(color: Colors.grey[100]),),
+        child: Text("Registrarse", style: TextStyle(color: Colors.white,)),
         decoration: BoxDecoration(
-          color: Colors.deepPurple[100],
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.blue[300],
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
       ),
     );
@@ -100,7 +100,6 @@ class LoginScreenState extends State<LoginScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
