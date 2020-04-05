@@ -7,11 +7,14 @@ import 'package:cartech_app/src/models/service_category.dart';
 import 'package:cartech_app/src/models/services_categories_state.dart';
 import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/api_client.dart';
+import 'package:cartech_app/src/resources/db_provider.dart';
 import 'package:cartech_app/src/resources/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'bloc.dart';
+import 'package:path/path.dart';
 
 class ServicesCategoriesScreenBloc extends Bloc{
 
@@ -22,12 +25,26 @@ class ServicesCategoriesScreenBloc extends Bloc{
 
   void init() async {
     _servicesCategoriesStateController.sink.add(ServicesCategoriesStateLoading());
-
     this._user = await Utils.getLoggedUserInfo();
 
+    DateTime updatedDate = await DBProvider.db.getCategoryUpdateDate();
+
+    if(updatedDate != null && updatedDate.difference(DateTime.now().toUtc()).inHours < 24){
+      developer.log("RETRIEVING FROM LOCAL DATABASE");
+
+      List<ServiceCategory> categories = await DBProvider.db.getCategories();
+
+      ServicesCategoriesStateReady servicesStateReady = ServicesCategoriesStateReady();
+      servicesStateReady.user = this._user;
+      servicesStateReady.serviceCategories = categories;
+
+      _servicesCategoriesStateController.sink.add(servicesStateReady);
+      return;
+    }
+
+    developer.log("RETRIEVING FROM API");
     String token = await Utils.getToken();
 
-//    String response = "{\r\n    \"services\": [\r\n        {\r\n            \"service_category\": \"Frenos\",\r\n            \"service_category_id\": 1\r\n        },\r\n        {\r\n            \"service_category\": \"Afinaci\u00F3n de motor\",\r\n            \"service_category_id\": 2\r\n        },\r\n        {\r\n            \"service_category\": \"Cambio de aceite y lubricaci\u00F3n\",\r\n            \"service_category_id\": 3\r\n        },\r\n        {\r\n            \"service_category\": \"Mantenimiento de suspensi\u00F3n\",\r\n            \"service_category_id\": 4\r\n        },\r\n        {\r\n            \"service_category\": \"Revisi\u00F3n el\u00E9ctrica\",\r\n            \"service_category_id\": 5\r\n        }\r\n    ]\r\n}";
     String response = await ApiClient.get(token, "/service/category").catchError( (error) {
       //TODO: wrap error message
       _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError(error.toString()));
@@ -38,12 +55,29 @@ class ServicesCategoriesScreenBloc extends Bloc{
     Map<String, dynamic> responseMap = json.decode(response);
     List<ServiceCategory> serviceCategories = ServiceCategory.listFromJSON(responseMap);
 
+    int result = await DBProvider.db.deleteAllServiceCategories();
+    developer.log("DELETED ROWS: " + result.toString());
+//    if(result == 0){
+//      // TODO: fix error message after debugging
+//      developer.log("ERROR BORRANDO ANTIGUOS");
+//      _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError("bases de datos local devolvio 0"));
+//      return;
+//    }
+
+    for(int i = 0; i < serviceCategories.length; i++){
+      int result = await DBProvider.db.createServiceCategory(serviceCategories[i]);
+      if(result == 0) {
+        developer.log("ERROR INSERTANDO NUEVA CATEGORIA");
+        _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError("error insertando nueva categoria de servicios"));
+        return;
+      }
+    }
+
     ServicesCategoriesStateReady servicesStateReady = ServicesCategoriesStateReady();
     servicesStateReady.user = this._user;
     servicesStateReady.serviceCategories = serviceCategories;
 
     _servicesCategoriesStateController.sink.add(servicesStateReady);
-
   }
 
   @override
