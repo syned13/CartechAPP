@@ -29,7 +29,7 @@ class ServicesScreenState extends State<ServicesScreen>{
           child: Container(
             width: double.maxFinite,
             alignment: Alignment.center,
-            height: 40,
+            height: 50,
             padding: EdgeInsets.all(5),
               child: Text(services[i].serviceName, textAlign: TextAlign.center, style: TextStyle(fontSize: 17),),),
         ),

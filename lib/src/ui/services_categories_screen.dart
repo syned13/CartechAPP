@@ -50,14 +50,16 @@ class ServicesCategoriesScreenState extends State<ServicesCategoriesScreen>{
         child: Card(
           color: Colors.deepPurple[100],
           child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _getCategoryImage(serviceCategories[i].serviceCategory),
-                SizedBox(height: 5,),
-                Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
-              ],
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _getCategoryImage(serviceCategories[i].serviceCategory),
+                  SizedBox(height: 5,),
+                  Text(serviceCategories[i].serviceCategory, textAlign: TextAlign.center,),
+                ],
+              ),
             ),
           ),
         ),
@@ -73,7 +75,7 @@ class ServicesCategoriesScreenState extends State<ServicesCategoriesScreen>{
         physics: ClampingScrollPhysics(),
         primary: false,
         crossAxisSpacing: 5.0,
-        crossAxisCount: 3,
+        crossAxisCount: 2,
         children: _serviceCategoriesCardList(serviceCategories),
     );
   }
@@ -97,19 +99,21 @@ class ServicesCategoriesScreenState extends State<ServicesCategoriesScreen>{
             return SafeArea(
               child: Container(
                 padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Hola, " + data.user.name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).accentColor),),
-                    SizedBox(height: 5,),
-                    Text("¿Qué necesitas?", style: TextStyle(fontSize: 20),),
-                    SizedBox(height: 20,),
-                    Text("Categorías de servicios", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 20,),
-                    _servicesGridView(data.serviceCategories),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Hola, " + data.user.name.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).accentColor),),
+                      SizedBox(height: 5,),
+                      Text("¿Qué necesitas?", style: TextStyle(fontSize: 20),),
+                      SizedBox(height: 20,),
+                      Text("Categorías de servicios", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                      SizedBox(height: 20,),
+                      _servicesGridView(data.serviceCategories),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )  ;
