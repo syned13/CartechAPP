@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:cartech_app/src/resources/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,6 +74,10 @@ class ApiClient {
     }
 
     catch (Exception) {
+      if(Exception is TimeoutException){
+        return Future.error("timeout");
+      }
+
       return Future.error(Exception.toString());
     }
 

@@ -99,7 +99,9 @@ class DBProvider {
 
   Future<List<Service>> getServicesFromCategory(int categoryID) async{
     final db = await database;
-    final res = await db.rawQuery("SELECT * FROM service WHERE service_category_id = $categoryID");
+    final res = await db.rawQuery("SELECT * FROM service WHERE service_category_id = $categoryID").catchError( (error){
+      return error;
+    });
 
     List<Service> services = res.isNotEmpty ? res.map( (c) => Service.fromJson(c)).toList() : [];
 
@@ -108,7 +110,9 @@ class DBProvider {
 
   Future<int> dropTabes() async{
     final db = await database;
-    final res = await db.rawQuery("DROP TABLE service_category");
+    final res = await db.rawQuery("DROP TABLE service_category").catchError( (error){
+      return error;
+    });
   }
 
 }

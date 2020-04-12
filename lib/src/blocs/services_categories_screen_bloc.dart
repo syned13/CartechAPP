@@ -46,7 +46,15 @@ class ServicesCategoriesScreenBloc extends Bloc{
     String token = await Utils.getToken();
 
     String response = await ApiClient.get(token, "/service/category").catchError( (error) {
-      //TODO: wrap error message
+      String errorMessage = error.toString();
+
+      if(errorMessage == "timeout"){
+        errorMessage = "Ha ocurrido un error de conexión";
+      }
+      else if(errorMessage == "internal server error"){
+        errorMessage = "Ha ocurrido un error";
+      }
+
       _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError(error.toString()));
       return;
     });
@@ -57,19 +65,15 @@ class ServicesCategoriesScreenBloc extends Bloc{
 
     int result = await DBProvider.db.deleteAllServiceCategories();
     developer.log("DELETED ROWS: " + result.toString());
-//    if(result == 0){
-//      // TODO: fix error message after debugging
-//      developer.log("ERROR BORRANDO ANTIGUOS");
-//      _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError("bases de datos local devolvio 0"));
-//      return;
-//    }
+    if(result == 0){
+      developer.log("ERROR BORRANDO ANTIGUOS");
+    }
 
     for(int i = 0; i < serviceCategories.length; i++){
       int result = await DBProvider.db.createServiceCategory(serviceCategories[i]);
       if(result == 0) {
         developer.log("ERROR INSERTANDO NUEVA CATEGORIA");
-        _servicesCategoriesStateController.sink.add(ServicesCategoriesStateError("error insertando nueva categoria de servicios"));
-        return;
+        break;
       }
     }
 
@@ -84,6 +88,4 @@ class ServicesCategoriesScreenBloc extends Bloc{
   void dispose() {
     _servicesCategoriesStateController.close();
   }
-
-
 }

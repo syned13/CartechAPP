@@ -51,8 +51,8 @@ class ServicesScreenBloc extends Bloc{
     for(int i = 0; i < services.length; i++){
       int result = await DBProvider.db.createService(services[i]);
       if(result == 0){
-        _servicesStateController.sink.add(ServicesStateError("error insertando servicios"));
-        return;
+        developer.log("ERROR INSERTING SERVICES");
+        break;
       }
     }
 
