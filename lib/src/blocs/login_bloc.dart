@@ -41,17 +41,26 @@ class LoginBloc extends Bloc{
         errorMessage = "Error inesperado";
       }
 
-      _loginStateController.sink.add( LoginStateError(errorMessage));
+      _loginStateController.sink.add(LoginStateError(errorMessage));
       return;
     });
 
     Map<String, dynamic> responseMap = json.decode(responseBody);
 
-    Utils.saveLoginInfo(responseMap);
+    try{
+      bool result = await Utils.saveLoginInfo(responseMap);
+      if(!result){
+        _loginStateController.sink.add(LoginStateError("some error"));
+      }
+    }
+    catch (Exception){
+      _loginStateController.sink.add(LoginStateError(Exception.toString()));
+      return;
+    }
 
     _loginStateController.sink.add(LoginStateReady());
-
   }
+
   @override
   void dispose() {
   _loginStateController.close();

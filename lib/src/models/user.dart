@@ -1,4 +1,5 @@
 class User {
+  int userID;
   String name;
   String lastName;
   String email;
@@ -13,6 +14,7 @@ class User {
     email = json['email'];
     phoneNumber = json['phone_number'];
     password = json['password'];
+    userID = json["user_id"];
   }
 
   Map<String, dynamic> toJson() {

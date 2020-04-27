@@ -35,6 +35,42 @@ class ApiClient {
         return Future.error(errorMessage);
       }
 
+      return utf8.decode(response.bodyBytes);
+    }
+    catch (Exception) {
+      return Future.error(Exception.toString());
+    }
+
+    return "";
+  }
+
+  static Future<String> post(Map<String, dynamic> bodyMap, String path) async {
+    String token = await Utils.getToken();
+    developer.log("TOKEN:" + token);
+    Map<String, String> headers = Map();
+    headers["Authorization"] = token;
+    headers["content-type"] = "application/json";
+
+    String body = jsonEncode(bodyMap);
+
+    try {
+      final response = await http.post(
+          API_ENDPOINT + path, headers: headers, body: body).catchError( (error) {
+        return Future.error(error);
+      }).timeout(Duration(milliseconds: 10000));
+
+      if (response == null) {
+        return Future.error("request error");
+      }
+
+      developer.log("response: " + response.body);
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        developer.log("invalid_status_code: " + response.statusCode.toString());
+        String errorMessage = jsonDecode(response.body)["message"];
+
+        return Future.error(errorMessage);
+      }
+
 
       return utf8.decode(response.bodyBytes);
     }
@@ -45,7 +81,6 @@ class ApiClient {
 
     return "";
   }
-
 
   static Future<String> get(String token, String path) async {
     Map<String, String> headers = Map();

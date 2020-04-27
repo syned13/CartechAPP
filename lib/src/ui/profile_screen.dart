@@ -2,6 +2,7 @@
 import 'package:cartech_app/src/blocs/profile_screen_bloc.dart';
 import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/utils.dart';
+import 'package:cartech_app/src/states/profile_state.dart';
 import 'package:cartech_app/src/ui/theme_resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,23 +17,32 @@ class ProfileScreen extends StatelessWidget{
 
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder<User>(
+        child: StreamBuilder<ProfileState>(
           stream: profileScreenBloc.userStream,
           builder: (context, snapshot) {
-            if(!snapshot.hasData){
+            if(snapshot.data is ProfileStateLoading || !snapshot.hasData){
               return Center(child: CircularProgressIndicator());
             }
 
+            if(snapshot.data is ProfileStateError){
+              return Container(
+                child: Center(
+                  child: Text("Ha ocurrido un error"),
+                ),
+              );
+            }
+
+            ProfileStateDone data = snapshot.data;
             return Container(
               padding: EdgeInsets.all(20),
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-              Text( snapshot.data.name + " " + snapshot.data.lastName),
+              Text(data.user.name + " " + data.user.lastName),
                   SizedBox(height: 10,),
-                  Text("Correo electronico: " + snapshot.data.email),
+                  Text("Correo electronico: " + data.user.email),
                   SizedBox(height: 10,),
-                  Text("Número telefónico: " + snapshot.data.phoneNumber),
+                  Text("Número telefónico: " + data.user.phoneNumber),
                   SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
@@ -57,8 +67,5 @@ class ProfileScreen extends StatelessWidget{
         ),
       ),
     );
-
   }
-
-
 }

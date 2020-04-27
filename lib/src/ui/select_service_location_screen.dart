@@ -2,6 +2,7 @@ import 'package:cartech_app/src/blocs/select_service_location_bloc.dart';
 import 'package:cartech_app/src/models/select_service_location_state.dart';
 import 'package:cartech_app/src/models/service_category.dart';
 import 'package:cartech_app/src/models/service_request.dart';
+import 'package:cartech_app/src/resources/utils.dart';
 import 'package:cartech_app/src/ui/confirm_service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,7 +20,6 @@ class SelectServiceLocationScreen extends StatefulWidget{
   State<StatefulWidget> createState() {
     return SelectServiceLocationScreenState();
   }
-
 }
 
 class SelectServiceLocationScreenState extends State<SelectServiceLocationScreen>{
@@ -109,6 +109,7 @@ class SelectServiceLocationScreenState extends State<SelectServiceLocationScreen
                         ServiceRequest serviceRequest = ServiceRequest();
                         serviceRequest.service = widget.service;
                         serviceRequest.serviceLocation = serviceLocation;
+                        serviceRequest.user = await Utils.getLoggedUserInfo();
 
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmServiceScreen(serviceRequest)));
                       },
