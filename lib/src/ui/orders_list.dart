@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OrdersListSreen extends StatelessWidget{
+class OrdersListScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -22,7 +22,6 @@ class OrdersListSreen extends StatelessWidget{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Tus órdenes de servicio", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,

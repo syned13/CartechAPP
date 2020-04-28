@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget{
 class MainScreenState extends State<MainScreen>{
 
   int _currentIndex = 0;
-  List<Widget> _children = [ServicesCategoriesScreen(), OrdersListSreen(), ProfileScreen()];
+  List<Widget> _children = [ServicesCategoriesScreen(), OrdersListScreen(), ProfileScreen()];
 
 
   @override
