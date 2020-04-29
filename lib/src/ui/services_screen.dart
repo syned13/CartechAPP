@@ -39,7 +39,7 @@ class ServicesScreenState extends State<ServicesScreen>{
     return cards;
   }
 
-  Widget _ServicesList(List<Service> services){
+  Widget _servicesList(List<Service> services){
       return Container(
         padding: EdgeInsets.all(50),
         child: Column(
@@ -69,7 +69,7 @@ class ServicesScreenState extends State<ServicesScreen>{
 
           if(snapshot.data is ServicesStateReady){
             ServicesStateReady servicesStateReady = snapshot.data;
-            return _ServicesList(servicesStateReady.services);
+            return _servicesList(servicesStateReady.services);
           }
 
           return Container();
