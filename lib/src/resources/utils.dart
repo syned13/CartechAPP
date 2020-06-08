@@ -1,52 +1,49 @@
 import 'dart:convert';
 
 import 'package:cartech_app/src/models/user.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dart:developer' as developer;
-
-class Utils{
-
+class Utils {
   static const GOOGLE_MAP_KEY = "AIzaSyCJyJ3arrtyEjrwvWxpdv5axJVN3SJFLzg";
 
-  static Future<bool> saveLoginInfo(Map<String, dynamic> userInfo) async{
+  static Future<bool> saveLoginInfo(Map<String, dynamic> userInfo) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("TOKEN", userInfo["token"]);
 
     User user = User.fromJson(userInfo);
     bool result;
     result = await sharedPreferences.setString("NAME", user.name);
-    if(!result){
+    if (!result) {
       return false;
     }
 
     result = await sharedPreferences.setString("LAST_NAME", user.name);
-    if(!result){
+    if (!result) {
       return false;
     }
 
     result = await sharedPreferences.setString("EMAIL", user.email);
-    if(!result){
+    if (!result) {
       return false;
     }
 
-    result = await sharedPreferences.setString("PHONE_NUMBER", user.phoneNumber);
-    if(!result){
+    result =
+        await sharedPreferences.setString("PHONE_NUMBER", user.phoneNumber);
+    if (!result) {
       return false;
     }
 
     return sharedPreferences.setInt("USER_ID", user.userID);
   }
 
-  static String decodeResponse(String responseBody){
+  static String decodeResponse(String responseBody) {
     var encoded = utf8.encode(responseBody);
     var decoded = utf8.decode(encoded);
 
     return decoded;
   }
 
-  static Future<User> getLoggedUserInfo() async{
+  static Future<User> getLoggedUserInfo() async {
     User user = User();
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -59,17 +56,16 @@ class Utils{
     return user;
   }
 
-  static Future<bool>  isLogged() async{
+  static Future<bool> isLogged() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final token = sharedPreferences.getString("TOKEN");
 
-    if (token == null)
-      return false;
+    if (token == null) return false;
 
     return true;
   }
 
-  static void logOut() async{
+  static void logOut() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove("TOKEN");
     sharedPreferences.remove("NAME");
@@ -79,9 +75,9 @@ class Utils{
     sharedPreferences.remove("EMAIL");
   }
 
-  static Future<String> getToken() async{
+  static Future<String> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String returnedToken =  sharedPreferences.getString("TOKEN");
+    String returnedToken = sharedPreferences.getString("TOKEN");
 
     return returnedToken;
   }
