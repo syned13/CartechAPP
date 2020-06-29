@@ -5,6 +5,7 @@ import 'package:cartech_app/src/blocs/bloc.dart';
 import 'package:cartech_app/src/models/login_state.dart';
 import 'package:cartech_app/src/models/user.dart';
 import 'package:cartech_app/src/resources/api_client.dart';
+import 'package:cartech_app/src/resources/push_notification.dart';
 import 'package:cartech_app/src/resources/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
@@ -52,13 +53,29 @@ class LoginBloc extends Bloc{
       if(!result){
         _loginStateController.sink.add(LoginStateError("some error"));
       }
+
+      _makeSessionRequest();
+
     }
     catch (Exception){
       _loginStateController.sink.add(LoginStateError(Exception.toString()));
       return;
     }
 
+
     _loginStateController.sink.add(LoginStateReady());
+  }
+
+  void _makeSessionRequest() async {
+    String fcmToken = await PushNotificationsManager.getoken();
+    User user = await Utils.getLoggedUserInfo();
+
+    Map<String, dynamic> bodyMap = Map();
+    bodyMap["user_id"] = user.userID;
+    bodyMap["user_type"] = "user";
+    bodyMap["token"] = fcmToken;
+
+    ApiClient.post(bodyMap, "/session");
   }
 
   @override

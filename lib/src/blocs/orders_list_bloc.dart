@@ -31,7 +31,6 @@ class OrdersListBloc extends Bloc {
     try{
       String token = await Utils.getToken();
       String response = await ApiClient.get(token, "/order/$path");
-      developer.log("RESPONSE: " + response);
       List<dynamic> ordersMaps = json.decode(response);
 
       List<ServiceOrder> orders = ordersMaps.map( (order) => ServiceOrder.fromJson(order)).toList();

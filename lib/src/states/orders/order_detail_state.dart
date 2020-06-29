@@ -10,4 +10,8 @@ class OrderDetailStateError extends OrderDetailState {
   OrderDetailStateError(this.errorMessage);
 }
 
+class OrderDetailStateMarkReadyLoading extends OrderDetailState {}
+
+class OrderDetailStateMarkReadyDone extends OrderDetailState {}
+
 class OrderDetailsStateCancelledDone extends OrderDetailState {}

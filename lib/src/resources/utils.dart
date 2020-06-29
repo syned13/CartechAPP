@@ -75,6 +75,11 @@ class Utils {
     sharedPreferences.remove("EMAIL");
   }
 
+  static void saveFCMToken(String token) async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("FCM_TOKEN", token);
+  }
+
   static Future<String> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String returnedToken = sharedPreferences.getString("TOKEN");

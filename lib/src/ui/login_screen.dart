@@ -1,4 +1,3 @@
-
 import 'package:cartech_app/src/blocs/login_bloc.dart';
 import 'package:cartech_app/src/models/login_state.dart';
 import 'package:cartech_app/src/ui/services_categories_screen.dart';
@@ -160,7 +159,5 @@ class LoginScreenState extends State<LoginScreen>{
         Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MainScreen()));
       }
     });
-
   }
-
 }

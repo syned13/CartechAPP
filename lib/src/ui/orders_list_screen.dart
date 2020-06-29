@@ -50,7 +50,7 @@ class OrdersList extends StatelessWidget {
           });
         },
         child: Card(
-          color: Resources.MainColor,
+          color: orders[i].status == "pending"? Resources.MainColor: Resources.SecondaryColor,
           child: Container(
             padding: EdgeInsets.all(10),
             child: Column(

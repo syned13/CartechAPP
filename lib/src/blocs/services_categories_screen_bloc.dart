@@ -59,7 +59,6 @@ class ServicesCategoriesScreenBloc extends Bloc{
       return;
     });
 
-    developer.log(response.toString());
     Map<String, dynamic> responseMap = json.decode(response);
     List<ServiceCategory> serviceCategories = ServiceCategory.listFromJSON(responseMap);
 

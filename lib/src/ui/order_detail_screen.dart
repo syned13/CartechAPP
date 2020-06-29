@@ -88,7 +88,16 @@ class OrderDetailsScreenState extends State<OrderDetailScreen> {
                           color: Colors.red[200],
                           onPressed: () async {_bloc.cancellOrder();},
                           child: Text("Cancelar orden"),
-                        ),
+                        )
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                          alignment: Alignment.center,
+                          child: snapshot.data is OrderDetailStateMarkReadyLoading?CircularProgressIndicator():RaisedButton(
+                            color: Colors.green[200],
+                            onPressed: () async {_bloc.setOrderReady();},
+                            child: Text("Marcar como lista"),
+                          )
                       ),
                     ],
                   ),
@@ -136,6 +145,25 @@ class OrderDetailsScreenState extends State<OrderDetailScreen> {
         Flushbar(
           flushbarPosition: FlushbarPosition.BOTTOM,
           message: "Orden cancelada con éxito",
+          icon: Icon(
+            Icons.check,
+            size: 28.0,
+            color: Resources.SecondaryColor,
+          ),
+          backgroundColor: Resources.MainColor,
+          duration: Duration(seconds: 1),
+          leftBarIndicatorColor: Colors.green,
+
+        ).show(context).then( (r){
+          Navigator.pop(context);
+        });
+      }
+
+      // THIS IS REPEATED, PLEASE DONT DO THIS ANYMORE!
+      if(data is OrderDetailStateMarkReadyDone){
+        Flushbar(
+          flushbarPosition: FlushbarPosition.BOTTOM,
+          message: "Orden finalizada con éxito",
           icon: Icon(
             Icons.check,
             size: 28.0,
