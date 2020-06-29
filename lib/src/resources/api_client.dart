@@ -8,8 +8,8 @@ import 'dart:developer' as developer;
 
 class ApiClient {
 
-//  static final String API_ENDPOINT = "https://api-cartech.herokuapp.com";
-static final String API_ENDPOINT = "http://10.0.2.2:5000";
+  static final String API_ENDPOINT = "https://api-cartech.herokuapp.com";
+//static final String API_ENDPOINT = "http://10.0.2.2:5000";
 
   static Future<String> postUser(User user, String path) async {
     Map<String, String> headers = Map();
